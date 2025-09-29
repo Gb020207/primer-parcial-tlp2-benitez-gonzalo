@@ -3,11 +3,11 @@ import { AssetModel } from "../models/mongoose/asset.model.js";
 
 
 export const createAsset = async (req, res) => {
-  const {inventoryNumber, decription,brand,model,satatus,acquisitionDate,acquisitionValue,responsile,category} = req.body;
+  const {inventoryNumber, decription,brand,model,status,acquisitionDate,acquisitionValue,responsile,category} = req.body;
   try {
     // TODO: crear asset (usuario autenticado)
     const Asset = await AssetModel.create(
-  {inventoryNumber, decription,brand,model,satatus,acquisitionDate,acquisitionValue,responsile,category})
+  {inventoryNumber, decription,brand,model,status,acquisitionDate,acquisitionValue,responsile,category})
     
     return res.status(201).json({ msg: "Asset creado correctamente",data:Asset });
   } catch (error) {
