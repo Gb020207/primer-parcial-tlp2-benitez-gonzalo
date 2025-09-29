@@ -36,4 +36,5 @@ const AssetSchema = new Schema(
   { timestamps: true }
 );
 
+
 export const AssetModel = model("Asset", AssetSchema);

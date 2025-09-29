@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { AssetModel } from "./asset.model.js";
 
 // TODO: completar relacion embebida y configurar el virtuals para el populate inverso con assets
 
@@ -64,6 +65,16 @@ UserSchema.virtual('assets', {
   ref:"Asset",
   localField:'_id',
   foreignField:"assets",
+})
+UserSchema.pre("findOneAndDelete", async function (next) {
+    const user_id = this.getQuery()._id;
+
+    console.log("Articulo eliminado", user_id);
+
+    await AssetModel.deleteMany({responsible: user_id});
+
+    next();
+    
 })
 
 export const UserModel = model("User", UserSchema);
