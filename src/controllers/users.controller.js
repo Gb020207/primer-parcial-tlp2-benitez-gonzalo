@@ -1,4 +1,4 @@
-import { UserModel } from "../models/mongoose/user.model";
+import { UserModel } from "../models/mongoose/user.model.js";
 
 export const getAllUsers = async (req, res) => {
   const {username, email, password,role,profile } = req.body;
@@ -14,7 +14,7 @@ export const getAllUsers = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   const {id} = req.params
-  
+
   try {
     // TODO: eliminación lógica (deletedAt) (solo admin)
     const user = await UserModel.findByIdAndDelete(id)
