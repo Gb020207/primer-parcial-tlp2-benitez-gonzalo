@@ -18,12 +18,52 @@ const UserSchema = new Schema(
       enum: ["secretary", "administrator"],
       default: "secretary",
     },
+    
     deletedAt: { type: Date, default: null },
     // ! FALTA COMPLETAR ACA
+    profile:{
+      employee_number:{
+        type: String,
+        unique:true,
+        required: true,
+      },
+      firstName:{
+        type:String,
+        required:true,
+        minlength:2,
+        maxlength:50,
+
+      },
+      lastName:{
+          type:String,
+        required:true,
+        minlength:2,
+        maxlength:50,
+      },
+      phone:{
+        type: String,
+        required:false,
+      }
+    },
   },
   { timestamps: true }
 );
 
+UserSchema.pre(/^find/, function(next){
+    if(!this.getOptions().includeDelete){
+        this.where({deleteAt: null})
+    };
+    next();
+})
+UserSchema.method.softDelete = function(){
+    this.deleteAt = new Date();
+    return this.save();
+}
 // ! FALTA COMPLETAR ACA
+UserSchema.virtual('assets', {
+  ref:"Asset",
+  localField:'_id',
+  foreignField:"assets",
+})
 
 export const UserModel = model("User", UserSchema);
